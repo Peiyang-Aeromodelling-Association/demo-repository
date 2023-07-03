@@ -3,6 +3,5 @@ aaaa
 "gagagaga"
 xiangzi:one/two/three/four/five"
 zixian:"who konw the next sentence?"
-=======
-bbbb
->>>>>>> 844db0da98a329818298b8ca124a866b663181fa
+do you understand?
+I mean , just run.
