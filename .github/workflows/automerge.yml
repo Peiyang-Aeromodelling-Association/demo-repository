@@ -14,7 +14,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
     
-    steps:
       - name: setup ssh key
         uses: kielabokkie/ssh-key-and-known-hosts-action@v1.3.5
         with:
@@ -23,13 +22,12 @@ jobs:
 
       - name: Merge Pull Request
         run: |
-          MAIN_BRANCH=main
           PR_BRANCH="${{ github.event.pull_request.head.ref }}"
-          git checkout "${MAIN_BRANCH}"
-          git pull origin "${MAIN_BRANCH}"
+          git checkout main
+          git pull origin main
           git merge --no-ff "${PR_BRANCH}" -m "Merge PR #${{ github.event.pull_request.number }}"
 
       - name: Push changes
         run: |
-          git push origin "${MAIN_BRANCH}"
+          git push origin main
 
