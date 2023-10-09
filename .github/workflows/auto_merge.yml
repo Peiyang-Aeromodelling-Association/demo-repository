@@ -4,7 +4,7 @@ permissions:
 env:
   MERGE_LABELS: ""
 on:
-  pull_request:
+  pull_request_target:
     types:
       - labeled
       - unlabeled
