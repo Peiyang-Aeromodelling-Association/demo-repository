@@ -1,52 +1,30 @@
-name: Auto-Merge Pull Requests
-
+name: automerge
+env:
+  MERGE_LABELS: ""
 on:
   pull_request:
     types:
+      - labeled
+      - unlabeled
+      - synchronize
       - opened
+      - edited
+      - ready_for_review
       - reopened
-
-env:
-  MAIN_BRANCH: main
-  SSH_KEY: ${{ secrets.DEMO_SSH_PRIVATE_KEY }}
-
+      - unlocked
+  pull_request_review:
+    types:
+      - submitted
+  check_suite:
+    types:
+      - completed
+  status: {}
 jobs:
-  merge:
+  automerge:
     runs-on: ubuntu-latest
-
     steps:
-      # - name: setup ssh key
-      #   uses: kielabokkie/ssh-key-and-known-hosts-action@v1.3.5
-      #   with:
-      #     ssh-private-key: $SSH_KEY
-      #     ssh-host: github.com
-
-      - name: Configure SSH agent
-        run: |
-          # if 
-          if [ -z "$SSH_KEY" ]; then
-            echo "DEMO_SSH_PRIVATE_KEY is not set"
-            exit 1
-          fi
-          mkdir -p ~/.ssh
-          echo "$SSH_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-          chmod 644 ~/.ssh/known_hosts
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/id_rsa
-
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Merge Pull Request
-        run: |
-          PR_BRANCH="${{ github.event.pull_request.head.ref }}"
-          git checkout main
-          git pull origin "${MAIN_BRANCH}"
-          git merge --no-ff "${PR_BRANCH}" -m "Merge PR #${{ github.event.pull_request.number }}"
-
-      - name: Push changes
-        run: |
-          git push origin main
-
+      - id: automerge
+        name: automerge
+        uses: "pascalgn/automerge-action@v0.15.6"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
