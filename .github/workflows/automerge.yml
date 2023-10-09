@@ -11,13 +11,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # - name: setup ssh key
-      #   uses: kielabokkie/ssh-key-and-known-hosts-action@v1.3.5
-      #   with:
-      #     ssh-private-key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
-      #     ssh-host: github.com
+      - name: setup ssh key
+        uses: kielabokkie/ssh-key-and-known-hosts-action@v1.3.5
+        with:
+          ssh-private-key: ${{ secrets.SSH_DEPLOY_KEY }}
+          ssh-host: github.com
 
-      - name: Configure SSH agent
+      # - name: Configure SSH agent
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.DEPLOY_PRIVATE_KEY }}" > ~/.ssh/id_rsa
