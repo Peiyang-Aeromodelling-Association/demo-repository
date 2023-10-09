@@ -3,6 +3,7 @@ permissions:
   contents: write
 env:
   MERGE_LABELS: ""
+  MAIN_BRANCH: "main"
 on:
   pull_request_target:
     types:
@@ -25,8 +26,13 @@ jobs:
   automerge:
     runs-on: ubuntu-latest
     steps:
-      - id: automerge
-        name: automerge
-        uses: "pascalgn/automerge-action@v0.15.6"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Merge Pull Request
+        run: |
+          PR_BRANCH="${{ github.event.pull_request.head.ref }}"
+          git checkout "${MAIN_BRANCH}"
+          git pull origin "${MAIN_BRANCH}"
+          git merge --no-ff "${PR_BRANCH}" -m "Merge PR #${{ github.event.pull_request.number }}"
+
+      - name: Push changes
+        run: |
+          git push origin "${MAIN_BRANCH}"
