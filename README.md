@@ -1,8 +1,12 @@
 # Welcome to your organization's demo respository
-This code repository (or "repo") is designed to demonstrate the best GitHub has to offer with the least amount of noise.
 
-The repo includes an `index.html` file (so it can render a web page), two GitHub Actions workflows, and a CSS stylesheet dependency.
+本仓库用来做git的基本练习。
 
-AAAAA
+## 步骤
 
-A
+1. 拥有一个Github账号，安装好git
+2. fork本仓库
+3. clone本仓库到本地
+4. 在`submit`目录下新建markdown文件并修改
+5. 提交，并push到自己的fork仓库
+6. 提交Pull Request，等待merge
