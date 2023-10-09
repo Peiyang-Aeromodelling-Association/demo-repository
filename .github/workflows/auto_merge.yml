@@ -1,4 +1,6 @@
 name: automerge
+permissions:
+  contents: write
 env:
   MERGE_LABELS: ""
 on:
