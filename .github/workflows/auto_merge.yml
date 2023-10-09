@@ -6,6 +6,10 @@ on:
       - opened
       - reopened
 
+env:
+  MAIN_BRANCH: main
+  SSH_KEY: ${{ secrets.DEMO_SSH_PRIVATE_KEY }}
+
 jobs:
   merge:
     runs-on: ubuntu-latest
@@ -14,18 +18,18 @@ jobs:
       # - name: setup ssh key
       #   uses: kielabokkie/ssh-key-and-known-hosts-action@v1.3.5
       #   with:
-      #     ssh-private-key: ${{ secrets.DEMO_SSH_PRIVATE_KEY }}
+      #     ssh-private-key: $SSH_KEY
       #     ssh-host: github.com
 
       - name: Configure SSH agent
         run: |
-          # if secrets.DEMO_SSH_PRIVATE_KEY is not set, then exit
-          if [ -z "${{ secrets.DEMO_SSH_PRIVATE_KEY }}" ]; then
+          # if 
+          if [ -z "$SSH_KEY" ]; then
             echo "DEMO_SSH_PRIVATE_KEY is not set"
             exit 1
           fi
           mkdir -p ~/.ssh
-          echo "${{ secrets.DEMO_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
