@@ -11,21 +11,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: setup ssh key
-        uses: kielabokkie/ssh-key-and-known-hosts-action@v1.3.5
-        with:
-          ssh-private-key: ${{ secrets.SSH_DEPLOY_KEY }}
-          ssh-host: github.com
+      # - name: setup ssh key
+      #   uses: kielabokkie/ssh-key-and-known-hosts-action@v1.3.5
+      #   with:
+      #     ssh-private-key: ${{ secrets.SSH_DEPLOY_KEY }}
+      #     ssh-host: github.com
 
-      # - name: Configure SSH agent
-        # run: |
-        #   mkdir -p ~/.ssh
-        #   echo "${{ secrets.DEPLOY_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        #   chmod 600 ~/.ssh/id_rsa
-        #   ssh-keyscan github.com >> ~/.ssh/known_hosts
-        #   chmod 644 ~/.ssh/known_hosts
-        #   eval "$(ssh-agent -s)"
-        #   ssh-add ~/.ssh/id_rsa
+      - name: Configure SSH agent
+        run: |
+          # if secrets.SSH_DEPLOY_KEY is not set, then exit
+          if [ -z "${{ secrets.SSH_DEPLOY_KEY }}" ]; then
+            echo "SSH_DEPLOY_KEY is not set"
+            exit 1
+          fi
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_DEPLOY_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_rsa
 
       - name: Checkout code
         uses: actions/checkout@v2
