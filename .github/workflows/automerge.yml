@@ -11,20 +11,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-    
       - name: setup ssh key
         uses: kielabokkie/ssh-key-and-known-hosts-action@v1.3.5
         with:
           ssh-private-key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
           ssh-host: github.com
 
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Merge Pull Request
         run: |
           PR_BRANCH="${{ github.event.pull_request.head.ref }}"
           git checkout main
-          git pull origin main
+          git pull origin "${MAIN_BRANCH}"
           git merge --no-ff "${PR_BRANCH}" -m "Merge PR #${{ github.event.pull_request.number }}"
 
       - name: Push changes
