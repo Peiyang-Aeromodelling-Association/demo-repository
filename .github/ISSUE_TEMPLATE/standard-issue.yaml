@@ -1,0 +1,39 @@
+name: Standard Issue
+description: 常规问题用这个模板提问
+title: "[Issue]"
+labels: ["question"]
+assignees: fkcptlst
+
+body:
+  - type: checkboxes
+    id: pre-checks
+    attributes:
+      label: 请确认你已经完成了以下检查
+      options:
+        - label: 有没有查找过以前类似的问题？
+        - label: 有没有上网查过？
+        - label: 有没有尝试独立解决?
+
+  - type: textarea
+    id: content
+    attributes:
+      label: 问题内容
+      description: 请在这里描述你的问题
+
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: 如果有截图，请提供一下
+      description: 请把截图拖到这里
+
+  - type: textarea
+    id: error-message
+    attributes:
+      label: 如果有报错信息，请提供一下
+      description: 如果有报错信息，请提供一下
+
+  - type: textarea
+    id: previous-attempts
+    attributes:
+      label: 先前的尝试
+      description: 如果你自己尝试解决过，请把你的思路和尝试的过程简要叙述一下。
